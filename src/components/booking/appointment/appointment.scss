@@ -1,0 +1,21 @@
+.appointment-wrapper {
+  .selection {
+    width: 80%;
+    height: 30px;
+  }
+  .appointment-timeslot {
+    margin-left: 15%;
+    text-align: left;
+    ul {
+      padding: 0;
+    }
+  }
+  .appointment-continue {
+    margin: 30px auto;
+    min-height: 30px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    font-size: 16px;
+  }
+}

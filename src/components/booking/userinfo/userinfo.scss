@@ -1,0 +1,71 @@
+.user-info {
+  .form-label {
+    font-weight: 500px;
+    display: flex;
+    p {
+      margin: 10px 5px 10px 0;
+    }
+    .helper-text {
+      color: red;
+    }
+  }
+  .form-box {
+    background: #ffffff;
+    border: 1px solid #c6c6c6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #333333;
+    min-height: 30px;
+    padding-left: 10px;
+  }
+  .name {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    .firstname {
+      flex: 1;
+      margin-right: 10px;
+    }
+    .lastname {
+      flex: 3;
+    }
+  }
+  .phone,
+  .email-wrapper {
+    width: 85%;
+    margin-bottom: 20px;
+    .email{
+      width: 100%;
+    }
+  }
+  // .email-wrapper {
+  //   padding-bottom: 5px;
+  // }
+
+  @media screen and (max-width: 768px) {
+    .name {
+      flex-direction: column;
+      width: 95%;
+      .firstname {
+        margin-right: 0;
+      }
+    }
+    .phone,
+    .email-wrapper {
+      width: 95%;
+    }
+  }
+  .errors {
+    color: red;
+    background-color: pink;
+  }
+  .btn-complete {
+    margin: 30px auto;
+    min-height: 30px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    font-size: 14px;
+    border-radius: 4%;
+  }
+}

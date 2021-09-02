@@ -1,0 +1,18 @@
+.booking-types-wrapper {
+  ul {
+    list-style: none;
+  }
+  .booking-types-list-item {
+    text-align: left;
+    margin: 0 auto;
+    padding: 0;
+    width: 85%;
+    li {
+      margin: 10px auto;
+    }
+    div {
+      border: 1px solid gray;
+      padding-left: 20px;
+    }
+  }
+}

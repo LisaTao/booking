@@ -1,0 +1,19 @@
+.choice-of-steps {
+  .choice-header {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px auto;
+
+    .selected {
+      color: black;
+      width: 33%;
+      border-bottom: 2px solid black;
+    }
+    .unselected {
+      width: 33%;
+      background-color: rgba(0, 0, 0, 0.05);
+      background-color: none;
+      border: none;
+    }
+  }
+}
