@@ -5,7 +5,12 @@ import useInput from "../../../hooks/use-input";
 import "./userinfo.scss";
 
 const isNotEmpty = (value: string) => value.trim() !== "";
-const isEmail = (value: string) => /\S+@\S+\.\S+/.test(value);
+const isEmail = (value: string) => {
+  console.log("email", value);
+  console.log("email.test", /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value))
+  // return /\S+@\S+\.\S+/.test(value)
+  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
+};
 const UserInfo = () => {
   const {
     value: enteredFirstName,
