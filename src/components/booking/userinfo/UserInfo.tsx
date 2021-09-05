@@ -1,64 +1,63 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bookingActions } from "../../../redux/reducers/booking";
+import useInput from "../../../hooks/use-input";
 import "./userinfo.scss";
 
+const isNotEmpty = (value: string) => value.trim() !== "";
+const isEmail = (value: string) => /\S+@\S+\.\S+/.test(value);
 const UserInfo = () => {
-  const [firstname, setFirstname] = useState("");
-  const [firstNameTouched, setFirstNameTouched] = useState(false);
+  const {
+    value: enteredFirstName,
+    isValid: enteredFirstNameIsValid,
+    hasError: firstNameHasError,
+    handleValueChange: handleFirstNameChange,
+    handleValueBlur: handleFirstNameBlur,
+    reset: resetFirstName,
+  } = useInput(isNotEmpty);
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailHasError,
+    handleValueBlur: handleEmailBlur,
+    handleValueChange: handleEmailChange,
+    reset: resetEmail,
+  } = useInput(isEmail);
   const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailTouched, setEmailTouched] = useState(false);
   const [phone, setPhone] = useState("");
   const buttonContent = "Complete Appointment >>";
   const dispatch = useDispatch();
-  const firstNameIsValid = firstname.trim() !== "";
-  const firstNameInputIsInValid = !firstNameIsValid && firstNameTouched;
 
-  const handleFirstNameChange = (e: any) => {
-    setFirstname(e?.target.value)
-  }
-  const handleFirstNameBlur = (e: any) => {
-    setFirstNameTouched(true);
-  }
   const handleLastNameChange = (e: any) => {
     setLastname(e?.target.value)
   }
   const handlePhoneChange = (e: any) => {
     setPhone(e?.target.value)
   }
-  const handleEmailChange = (e: any) => {
-    setEmail(e?.target.value)
-  }
-  const handleEmailBlur = (e: any) => {
-    setEmailTouched(true);
-  }
-  const validemail = () => {
-    if (!/\S+@\S+\.\S+/.test(email))
-      return false;
-    else return true;
-  }
-  const emailIsInvalid = !validemail() && emailTouched;
+
   const handleComplete = () => {
-    if (!firstNameIsValid) {
+    if (!enteredFirstNameIsValid) {
       return;
     }
-    setFirstNameTouched(false);
-    setFirstNameTouched(false);
-    if (emailIsInvalid) return;
+    console.log("test", enteredEmailIsValid)
+    if (!enteredEmailIsValid) return;
 
-    dispatch(bookingActions.userInfo({ firstname, lastname, phone, email }));
+    dispatch(bookingActions.userInfo({ enteredFirstName, lastname, phone, enteredEmail }));
     dispatch(bookingActions.selectStep(4));
 
-
+    resetFirstName();
+    resetEmail();
   }
-
+  let formValid = false;
+  if (enteredEmailIsValid && enteredFirstNameIsValid) {
+    formValid = true;
+  }
   return (
     <div className="user-info">
       <label htmlFor="firstname" className="form-label">
         <p>Name</p>
         <p className="helper-text"> * </p>
-        {firstNameInputIsInValid && <p className="helper-text">First name must not be empty.</p>}
+        {firstNameHasError && <p className="helper-text">First name must not be empty.</p>}
       </label>
       <div className="form-gap name">
         <input
@@ -68,7 +67,7 @@ const UserInfo = () => {
           onChange={handleFirstNameChange}
           onBlur={handleFirstNameBlur}
           name="firstname"
-          value={firstname || ""}
+          value={enteredFirstName || ""}
         />
         <input
           type="text"
@@ -91,11 +90,11 @@ const UserInfo = () => {
           value={phone || ""}
         />
       </div>
-      <div className={emailIsInvalid ? "errors email-wrapper" : "email-wrapper"}>
+      <div className={emailHasError ? "errors email-wrapper" : "email-wrapper"}>
         <label htmlFor="email" className="form-label">
           <p>Email</p>
           <p className="helper-text"> * </p>
-          {emailIsInvalid && <p className="helper-text">{`(required)`}</p>}
+          {emailHasError && <p className="helper-text">{`(required)`}</p>}
         </label>
         <div className="form-gap">
           <input
@@ -108,9 +107,9 @@ const UserInfo = () => {
             name="email"
           />
         </div>
-        {emailIsInvalid && <p className={"errors helper-text"}>Your email address is invalid</p>}
+        {emailHasError && <p className={"errors helper-text"}>Your email address is invalid</p>}
       </div>
-      <button onClick={handleComplete} className={"btn-complete"}>{buttonContent}</button>
+      <button onClick={handleComplete} className={formValid ? "btn-complete" : "btn-disabled"} disabled={!formValid}>{buttonContent}</button>
     </div>
 
   )

@@ -34,7 +34,7 @@
   .email-wrapper {
     width: 85%;
     margin-bottom: 20px;
-    .email{
+    .email {
       width: 100%;
     }
   }
@@ -64,6 +64,15 @@
     min-height: 30px;
     background-color: black;
     color: white;
+    border: 1px solid black;
+    font-size: 14px;
+    border-radius: 4%;
+  }
+  .btn-disabled {
+    margin: 30px auto;
+    min-height: 30px;
+    background-color: rgba(120, 120, 120, 0.8);
+    color: #333333;
     border: 1px solid black;
     font-size: 14px;
     border-radius: 4%;
