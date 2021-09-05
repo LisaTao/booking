@@ -4,16 +4,22 @@ import { bookingActions } from "../../../redux/reducers/booking";
 import "./userinfo.scss";
 
 const UserInfo = () => {
-  const [errors, setErrors] = useState(false);
   const [firstname, setFirstname] = useState("");
+  const [firstNameTouched, setFirstNameTouched] = useState(false);
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
   const [phone, setPhone] = useState("");
   const buttonContent = "Complete Appointment >>";
   const dispatch = useDispatch();
+  const firstNameIsValid = firstname.trim() !== "";
+  const firstNameInputIsInValid = !firstNameIsValid && firstNameTouched;
 
   const handleFirstNameChange = (e: any) => {
     setFirstname(e?.target.value)
+  }
+  const handleFirstNameBlur = (e: any) => {
+    setFirstNameTouched(true);
   }
   const handleLastNameChange = (e: any) => {
     setLastname(e?.target.value)
@@ -23,27 +29,28 @@ const UserInfo = () => {
   }
   const handleEmailChange = (e: any) => {
     setEmail(e?.target.value)
-    setErrors(false);
   }
-
-  // const validname = () => {
-  //   if ((firstname !== "") && (lastname !== ""))
-  //     return true;
-  //   else return false;
-  // }
+  const handleEmailBlur = (e: any) => {
+    setEmailTouched(true);
+  }
   const validemail = () => {
     if (!/\S+@\S+\.\S+/.test(email))
       return false;
     else return true;
   }
+  const emailIsInvalid = !validemail() && emailTouched;
   const handleComplete = () => {
-    // if (!validname()) alert("Please input username");
-    if (!validemail()) setErrors(true);
-    else {
-      setErrors(false);
-      dispatch(bookingActions.userInfo({ firstname, lastname, phone, email }));
-      dispatch(bookingActions.selectStep(4));
+    if (!firstNameIsValid) {
+      return;
     }
+    setFirstNameTouched(false);
+    setFirstNameTouched(false);
+    if (emailIsInvalid) return;
+
+    dispatch(bookingActions.userInfo({ firstname, lastname, phone, email }));
+    dispatch(bookingActions.selectStep(4));
+
+
   }
 
   return (
@@ -51,13 +58,15 @@ const UserInfo = () => {
       <label htmlFor="firstname" className="form-label">
         <p>Name</p>
         <p className="helper-text"> * </p>
+        {firstNameInputIsInValid && <p className="helper-text">First name must not be empty.</p>}
       </label>
       <div className="form-gap name">
         <input
           type="text"
           placeholder="First Name"
           className="form-box firstname"
-          onChange={(e) => handleFirstNameChange(e)}
+          onChange={handleFirstNameChange}
+          onBlur={handleFirstNameBlur}
           name="firstname"
           value={firstname || ""}
         />
@@ -82,11 +91,11 @@ const UserInfo = () => {
           value={phone || ""}
         />
       </div>
-      <div className={errors ? "errors email-wrapper" : "email-wrapper"}>
+      <div className={emailIsInvalid ? "errors email-wrapper" : "email-wrapper"}>
         <label htmlFor="email" className="form-label">
           <p>Email</p>
           <p className="helper-text"> * </p>
-          {errors && <p className="helper-text">{`(required)`}</p>}
+          {emailIsInvalid && <p className="helper-text">{`(required)`}</p>}
         </label>
         <div className="form-gap">
           <input
@@ -94,11 +103,12 @@ const UserInfo = () => {
             placeholder="Email"
             required
             className="form-box email"
-            onChange={(e) => handleEmailChange(e)}
+            onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
             name="email"
           />
         </div>
-        {errors && <p className="helper-text">Your email address is invalid</p>}
+        {emailIsInvalid && <p className={"errors helper-text"}>Your email address is invalid</p>}
       </div>
       <button onClick={handleComplete} className={"btn-complete"}>{buttonContent}</button>
     </div>

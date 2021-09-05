@@ -29,7 +29,7 @@ const Appointment = () => {
     dispatch(bookingActions.selectedDate(bookDate));
     let mocktime = getMockTimeSlotByDate(bookDate);
     setTimeSlot(mocktime);
-  }, [bookDate])
+  }, [bookDate, dispatch])
 
   return (
     <div className={"appointment-wrapper"}>
